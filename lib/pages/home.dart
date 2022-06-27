@@ -12,6 +12,7 @@ class _HomeState extends State<Home> {
   bool _scanning = false;
   String _extractText = '';
   File _pickedImage = new File('');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,13 +34,16 @@ class _HomeState extends State<Home> {
                     color: Colors.black,
                   ),
                 )
-              : Container(
-                  height: 300,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    image: DecorationImage(
-                      image: FileImage(_pickedImage),
-                      fit: BoxFit.fill,
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 300,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      image: DecorationImage(
+                        image: FileImage(_pickedImage),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
@@ -61,34 +65,111 @@ class _HomeState extends State<Home> {
                   if (_pickedImage == null) return null;
                   _extractText =
                       await FlutterTesseractOcr.extractText(_pickedImage.path);
+                },
+              )),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+              height: 50,
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.camera),
+                label: Text('Take a Picture'),
+                onPressed: () async {
                   setState(() {
-                    _scanning = false;
+                    _scanning = true;
                   });
+
+                  var image =
+                      await ImagePicker().pickImage(source: ImageSource.camera);
+                  _pickedImage = File(image!.path);
+
+                  if (_pickedImage == null) return null;
+                  _extractText =
+                      await FlutterTesseractOcr.extractText(_pickedImage.path);
                 },
               )),
           SizedBox(
             height: 20,
           ),
           _scanning
-              ? Center(child: CircularProgressIndicator())
-              : Icon(
-                  Icons.done,
-                  size: 40,
-                  color: Colors.green,
-                ),
+              ? Container(
+                  height: 50,
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 40, 255, 17)),
+                    icon: Icon(
+                      Icons.book,
+                      color: Colors.black,
+                    ),
+                    label: Text(
+                      'Read Extracted Text',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Raw Extracted Text'),
+                        content: Text(_extractText),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                      barrierDismissible: true,
+                    ),
+                  ))
+              : Container(
+                  height: 50,
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 144, 217, 251)),
+                    icon: Icon(
+                      Icons.book,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Read Extracted Text',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Image not found!'),
+                        content:
+                            Text('Please upload an Image or Take a Photo.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                      barrierDismissible: true,
+                    ),
+                  )),
           SizedBox(
             height: 20,
           ),
-          Center(
-            child: Text(
-              _extractText,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
+          // Center(
+          //   child: Text(
+          //     _extractText,
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(
+          //       fontSize: 30,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // )
         ]));
   }
 }
