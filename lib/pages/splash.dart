@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dococr/pages/home.dart';
+import 'package:dococr/pages/ic.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
