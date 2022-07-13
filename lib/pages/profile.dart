@@ -1,5 +1,7 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dococr/pages/doc.dart';
+import 'package:dococr/pages/ic.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -28,6 +30,7 @@ class _ProfileState extends State<Profile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     CircleAvatar(
                         backgroundImage: NetworkImage(
@@ -35,6 +38,7 @@ class _ProfileState extends State<Profile> {
                         radius: 70.0),
                     SizedBox(width: 50),
                     CircleAvatar(
+                      // ignore: sort_child_properties_last
                       child: Text(
                         'M',
                         style: TextStyle(
@@ -90,6 +94,56 @@ class _ProfileState extends State<Profile> {
                     letterSpacing: 1.0,
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+                SizedBox(height: 10),
+                Text('Date Created',
+                    style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold,
+                    )),
+                Text(
+                  "Date Created",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Center(
+                  child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => IC()));
+                      },
+                      child: Text(
+                        'Upload IC',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                          fixedSize: Size.fromWidth(400.0),
+                          shape: StadiumBorder(),
+                          side: BorderSide(width: 2.0))),
+                ),
+                Center(
+                  child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DocumentUpload()));
+                      },
+                      child: Text(
+                        'Upload Documents',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                          fixedSize: Size.fromWidth(400.0),
+                          shape: StadiumBorder(),
+                          side: BorderSide(width: 2.0))),
                 ),
               ],
             )));

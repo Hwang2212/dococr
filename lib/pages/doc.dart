@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_tesseract_ocr/flutter_tesseract_ocr.dart';
 
-class IC extends StatefulWidget {
+class DocumentUpload extends StatefulWidget {
   @override
-  State<IC> createState() => _ICState();
+  State<DocumentUpload> createState() => _DocumentUploadState();
 }
 
-class _ICState extends State<IC> {
+class _DocumentUploadState extends State<DocumentUpload> {
   bool _scanning = false;
   String _extractText = '';
   File _pickedImage = new File('');
@@ -18,7 +18,7 @@ class _ICState extends State<IC> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Upload IC',
+            'Upload Documents',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.white,
@@ -51,9 +51,6 @@ class _ICState extends State<IC> {
               height: 50,
               margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                ),
                 icon: Icon(Icons.arrow_upward),
                 label: Text('Upload File'),
                 onPressed: () async {
@@ -77,9 +74,6 @@ class _ICState extends State<IC> {
               height: 50,
               margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                ),
                 icon: Icon(Icons.camera),
                 label: Text('Take a Picture'),
                 onPressed: () async {
@@ -105,9 +99,7 @@ class _ICState extends State<IC> {
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 40, 255, 17),
-                        shape: StadiumBorder(),
-                        side: BorderSide(width: 2.0)),
+                        primary: Color.fromARGB(255, 40, 255, 17)),
                     icon: Icon(
                       Icons.book,
                       color: Colors.black,
@@ -140,9 +132,7 @@ class _ICState extends State<IC> {
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 144, 217, 251),
-                        shape: StadiumBorder(),
-                        side: BorderSide(width: 2.0)),
+                        primary: Color.fromARGB(255, 144, 217, 251)),
                     icon: Icon(
                       Icons.book,
                       color: Colors.white,
