@@ -1,5 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'package:dococr/pages/profile.dart';
+
+class Customer {
+  final Int id;
+  final String name;
+  final Int ic;
+  final String gender;
+  final Int age;
+
+  const Customer(this.id, this.name, this.ic, this.gender, this.age);
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -40,9 +52,21 @@ class _HomeState extends State<Home> {
                 ),
                 subtitle: Text("Age: " + customers[index]['age'].toString()),
                 trailing: Text(customers[index]['gender']),
+                leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://avatars.dicebear.com/api/miniavs/:" +
+                            customers[index]['id'].toString() +
+                            ".jpg")),
               ),
             );
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Add your onPressed code here!
+          },
+          backgroundColor: Colors.lightBlueAccent,
+          child: const Icon(Icons.person_add),
         ));
   }
 }
