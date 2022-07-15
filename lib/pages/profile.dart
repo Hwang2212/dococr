@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:dococr/pages/doc.dart';
+import 'package:dococr/pages/home.dart';
 import 'package:dococr/pages/ic.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key, required this.customers});
+
+  final customers;
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -34,13 +37,14 @@ class _ProfileState extends State<Profile> {
                   children: [
                     CircleAvatar(
                         backgroundImage: NetworkImage(
-                            "https://avatars.dicebear.com/api/miniavs/:seed.jpg"),
+                            "https://avatars.dicebear.com/api/miniavs/:" +
+                                widget.customers['id'].toString()),
                         radius: 70.0),
                     SizedBox(width: 50),
                     CircleAvatar(
                       // ignore: sort_child_properties_last
                       child: Text(
-                        'M',
+                        widget.customers['gender'],
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -63,7 +67,7 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.bold,
                         )),
                     SizedBox(width: 200),
-                    Text('23 years old',
+                    Text(widget.customers['age'].toString() + ' Y/O',
                         style: TextStyle(
                           color: Colors.orange,
                           fontWeight: FontWeight.bold,
@@ -72,7 +76,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
                 Text(
-                  "Customer Name",
+                  widget.customers['name'],
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,
@@ -87,7 +91,7 @@ class _ProfileState extends State<Profile> {
                       fontWeight: FontWeight.bold,
                     )),
                 Text(
-                  "IC Number",
+                  widget.customers['ic'].toString(),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,
@@ -102,7 +106,7 @@ class _ProfileState extends State<Profile> {
                       fontWeight: FontWeight.bold,
                     )),
                 Text(
-                  "Date Created",
+                  widget.customers['date_created'],
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,

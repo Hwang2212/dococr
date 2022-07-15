@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List customers = [
+  final List customers = [
     {
       "id": 1,
       "name": "Jack",
@@ -90,8 +90,11 @@ class _HomeState extends State<Home> {
             return Card(
               child: ListTile(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Profile()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Profile(customers: customers[index])));
                 },
                 title: Text(
                   customers[index]['name'],
