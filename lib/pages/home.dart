@@ -1,18 +1,32 @@
 import 'dart:ffi';
-
+import 'package:dococr/services/data.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:dococr/pages/profile.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+// import 'package:dococr/services/data.dart';
 
 class Customer {
-  final Int id;
-  final String name;
-  final Int ic;
+  final int id;
+  final DateTime created_at;
+  final String customer_name;
+  final int ic;
+  final int age;
   final String gender;
-  final Int age;
-  final String date_created;
+  final String email;
+  final int phone_number;
 
-  const Customer(
-      this.id, this.name, this.ic, this.gender, this.age, this.date_created);
+  Customer(
+    this.id,
+    this.created_at,
+    this.customer_name,
+    this.ic,
+    this.age,
+    this.gender,
+    this.email,
+    this.phone_number,
+  );
 }
 
 class Home extends StatefulWidget {
@@ -23,56 +37,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List customers = [
-    {
-      "id": 1,
-      "name": "Jack",
-      "ic": 991111011010,
-      "gender": "M",
-      "age": 22,
-      "date_created": "2021-01-10"
-    },
-    {
-      "id": 2,
-      "name": "Jeep",
-      "ic": 891111011010,
-      "gender": "M",
-      "age": 20,
-      "date_created": "2021-01-11"
-    },
-    {
-      "id": 3,
-      "name": "Jill",
-      "ic": 791111011010,
-      "gender": "F",
-      "age": 21,
-      "date_created": "2021-01-12"
-    },
-    {
-      "id": 4,
-      "name": "John",
-      "ic": 691111011010,
-      "gender": "M",
-      "age": 32,
-      "date_created": "2021-01-13"
-    },
-    {
-      "id": 5,
-      "name": "Jou",
-      "ic": 941111011010,
-      "gender": "F",
-      "age": 42,
-      "date_created": "2021-01-14"
-    },
-    {
-      "id": 6,
-      "name": "Jim",
-      "ic": 951111011010,
-      "gender": "M",
-      "age": 19,
-      "date_created": "2021-01-15"
-    },
-  ];
+  Future fetchAllCustomers() async {
+    var response = await http.get(Uri.parse('http://localhost:5000/customer'));
+    var jsonData = jsonDecode(response.body);
+    print(jsonData);
+    List<Customer> customers = [];
+
+    for (var c in jsonData) {
+      Customer customer = Customer(c['id'], c['created_at'], c['customer_name'],
+          c['ic'], c['age'], c['gender'], c['email'], c['phone_number']);
+      customers.add(customer);
+    }
+    print(customers.length);
+    return customers;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,34 +62,70 @@ class _HomeState extends State<Home> {
           ),
           backgroundColor: Colors.white,
         ),
-        body: ListView.builder(
-          itemCount: 6,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Profile(customers: customers[index])));
-                },
-                title: Text(
-                  customers[index]['name'],
-                  style: TextStyle(fontSize: 20),
-                ),
-                subtitle: Text(customers[index]['age'].toString() +
-                    "                Created at " +
-                    customers[index]['date_created']),
-                trailing: Text(customers[index]['gender']),
-                leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://avatars.dicebear.com/api/miniavs/:" +
-                            customers[index]['id'].toString() +
-                            ".jpg")),
-              ),
-            );
-          },
+        body: Container(
+          child: Card(
+            child: FutureBuilder(
+                future: fetchAllCustomers(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  // if (snapshot.data == null) {
+                  //   return Container(
+                  //     child: Center(
+                  //       child: Text("Loading!"),
+                  //     ),
+                  //   );
+                  // } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Profile(
+                                        customers: snapshot.data[index])));
+                          },
+                          tileColor: Color.fromARGB(255, 255, 255, 220),
+                          selectedTileColor: Color.fromARGB(255, 252, 252, 73),
+                          hoverColor: Color.fromARGB(255, 252, 252, 73),
+                          title: Text(
+                            snapshot.data['customer_name'],
+                            style: GoogleFonts.getFont('Roboto',
+                                color: Color.fromARGB(255, 0, 57, 212),
+                                fontSize: 25),
+                          ),
+                          subtitle: Text(
+                            snapshot.data['age'].toString() +
+                                "                Created at " +
+                                snapshot.data['created_at'],
+                            style: GoogleFonts.getFont('Roboto',
+                                color: Color.fromARGB(255, 20, 82, 117),
+                                fontSize: 15),
+                          ),
+                          trailing: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              snapshot.data['gender'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          ),
+                          leading: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: CircleAvatar(
+                                radius: 25.0,
+                                backgroundImage: NetworkImage(
+                                    "https://avatars.dicebear.com/api/miniavs/:" +
+                                        snapshot.data['id'].toString() +
+                                        ".jpg")),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

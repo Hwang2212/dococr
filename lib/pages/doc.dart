@@ -66,7 +66,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                   _extractText =
                       await FlutterTesseractOcr.extractText(_pickedImage.path);
                 },
-              )),
+              )),  
           SizedBox(
             height: 10,
           ),

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_tesseract_ocr: ^0.4.20
   image_picker: ^0.8.5+3
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:

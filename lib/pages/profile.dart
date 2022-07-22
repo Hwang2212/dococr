@@ -38,7 +38,8 @@ class _ProfileState extends State<Profile> {
                     CircleAvatar(
                         backgroundImage: NetworkImage(
                             "https://avatars.dicebear.com/api/miniavs/:" +
-                                widget.customers['id'].toString()),
+                                widget.customers['id'].toString() +
+                                '.jpg'),
                         radius: 70.0),
                     SizedBox(width: 50),
                     CircleAvatar(
