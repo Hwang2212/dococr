@@ -1,6 +1,6 @@
 # dococr
 
-A new Flutter project.
+Aims to automate the document process by implementing Optical Character Recognition to capture important data
 
 ## Getting Started
 
