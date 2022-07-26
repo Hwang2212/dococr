@@ -2,7 +2,6 @@ import 'package:dococr/pages/doc.dart';
 import 'package:flutter/material.dart';
 import 'package:dococr/pages/ic.dart';
 import 'package:dococr/pages/home.dart';
-import 'package:dococr/pages/splash.dart';
 
 void main() => runApp(MaterialApp(
       initialRoute: '/home',

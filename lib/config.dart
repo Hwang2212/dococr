@@ -1,5 +1,5 @@
 class Config {
   static const String appName = "Doc OCR";
-  static const String apiURL = "127.0.0.1:5000";
-  static const String customerURL = "/api/customer";
+  static const String apiURL = "10.0.2.2:5000";
+  static const String customerURL = "/customer";
 }

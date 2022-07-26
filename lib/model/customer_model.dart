@@ -5,13 +5,13 @@ List<CustomerModel> customersFromJson(dynamic str) =>
 
 class CustomerModel {
   late int? id;
-  late DateTime? created_at;
+  late String? created_at;
   late String? customer_name;
-  late int? ic;
-  late int? age;
+  late String? ic;
+  late String? age;
   late String? gender;
   late String? email;
-  late int? phone_number;
+  late String? phone_number;
 
   CustomerModel({
     this.id,
@@ -25,7 +25,7 @@ class CustomerModel {
   });
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.parse(json['id']);
     created_at = json['created_at'];
     customer_name = json['customer_name'];
     ic = json['ic'];

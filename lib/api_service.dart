@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
 import 'package:http/http.dart' as http;
@@ -16,8 +17,9 @@ class APIService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
+      log(data[1].toString());
 
-      return customersFromJson(data["data"]);
+      return customersFromJson(data);
     } else {
       return null;
     }
