@@ -1,7 +1,9 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-class Customer {
+List<CustomerModel> customersFromJson(dynamic str) =>
+    List<CustomerModel>.from((str).map((x) => CustomerModel.fromJson(x)));
+
+class CustomerModel {
   late int? id;
   late DateTime? created_at;
   late String? customer_name;
@@ -11,7 +13,7 @@ class Customer {
   late String? email;
   late int? phone_number;
 
-  Customer({
+  CustomerModel({
     this.id,
     this.created_at,
     this.customer_name,
@@ -22,7 +24,7 @@ class Customer {
     this.phone_number,
   });
 
-  Customer.fromJson(Map<String, dynamic> json) {
+  CustomerModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     created_at = json['created_at'];
     customer_name = json['customer_name'];
@@ -32,10 +34,19 @@ class Customer {
     email = json['email'];
     phone_number = json['phone_number'];
   }
-}
 
-Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
 
-  return data;
+    _data['id'] = id;
+    _data['created_at'] = created_at;
+    _data['customer_name'] = customer_name;
+    _data['ic'] = ic;
+    _data['age'] = age;
+    _data['gender'] = gender;
+    _data['email'] = email;
+    _data['phone_number'] = phone_number;
+
+    return _data;
+  }
 }
