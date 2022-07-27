@@ -1,6 +1,7 @@
 import 'dart:ffi' as size;
 import 'package:dococr/api_service.dart';
 import 'package:dococr/model/customer_model.dart';
+import 'package:dococr/pages/add_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:dococr/pages/profile.dart';
 import 'dart:convert';
@@ -47,7 +48,14 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const AddCustomer(),
+                    ),
+                  );
+                },
                 child: const Text("Add Customer")),
             ListView.builder(
               shrinkWrap: true,
@@ -118,7 +126,8 @@ class _HomeState extends State<Home> {
           return customerList(model.data);
         }
 
-        return const CircleAvatar(child: CircularProgressIndicator());
+        return const CircleAvatar(
+            child: Center(child: CircularProgressIndicator()));
       },
     );
   }

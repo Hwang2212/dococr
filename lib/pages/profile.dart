@@ -38,14 +38,14 @@ class _ProfileState extends State<Profile> {
                     CircleAvatar(
                         backgroundImage: NetworkImage(
                             "https://avatars.dicebear.com/api/miniavs/:" +
-                                widget.customers['id'].toString() +
+                                widget.customers.id.toString() +
                                 '.jpg'),
                         radius: 70.0),
                     SizedBox(width: 50),
                     CircleAvatar(
                       // ignore: sort_child_properties_last
                       child: Text(
-                        widget.customers['gender'],
+                        widget.customers.gender,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -68,7 +68,7 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.bold,
                         )),
                     SizedBox(width: 200),
-                    Text(widget.customers['age'].toString() + ' Y/O',
+                    Text(widget.customers.age.toString() + ' Y/O',
                         style: TextStyle(
                           color: Colors.orange,
                           fontWeight: FontWeight.bold,
@@ -77,7 +77,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
                 Text(
-                  widget.customers['name'],
+                  widget.customers.customer_name,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,
@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                       fontWeight: FontWeight.bold,
                     )),
                 Text(
-                  widget.customers['ic'].toString(),
+                  widget.customers.ic.toString(),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,
@@ -107,7 +107,7 @@ class _ProfileState extends State<Profile> {
                       fontWeight: FontWeight.bold,
                     )),
                 Text(
-                  widget.customers['date_created'],
+                  widget.customers.created_at,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30.0,
