@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
           children: [
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
+                    onPrimary: Colors.black,
                     primary: Color.fromARGB(255, 252, 252, 73),
                     minimumSize: const Size(88.0, 36.0),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
