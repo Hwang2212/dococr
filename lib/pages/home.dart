@@ -52,7 +52,8 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const AddCustomer(),
+                      builder: (BuildContext context) =>
+                          const AddEditCustomer(),
                     ),
                   );
                 },

@@ -1,19 +1,23 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:dococr/api_service.dart';
+import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
-class AddCustomer extends StatefulWidget {
-  const AddCustomer({Key? key}) : super(key: key);
+class AddEditCustomer extends StatefulWidget {
+  const AddEditCustomer({Key? key}) : super(key: key);
+  static const routeName = "/add-edit-customer";
 
   @override
-  State<AddCustomer> createState() => _AddCustomerState();
+  State<AddEditCustomer> createState() => _AddCustomerState();
 }
 
-class _AddCustomerState extends State<AddCustomer> {
+class _AddCustomerState extends State<AddEditCustomer> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   CustomerModel? customerModel;
@@ -42,10 +46,31 @@ class _AddCustomerState extends State<AddCustomer> {
     );
   }
 
+  bool validateAndSave() {
+    final form = globalKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
   @override
   void initState() {
     super.initState();
     customerModel = CustomerModel();
+
+    Future.delayed(Duration.zero, (() {
+      if (ModalRoute.of(context)?.settings.arguments != null) {
+        final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
+
+        customerModel = arguments["model"];
+
+        setState(() {
+          isEditMode = true;
+        });
+      }
+    }));
   }
 
   Widget customerForm() {
@@ -54,26 +79,13 @@ class _AddCustomerState extends State<AddCustomer> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-              left: 20,
-            ),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.black,
-                    primary: Color.fromARGB(255, 252, 252, 73),
-                    minimumSize: const Size(88.0, 36.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)))),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) => icPicker(false, "", (file) {}));
-                },
-                child: const Text("Upload IC")),
-          ),
+          // icPicker(isImageSelected, customerModel!.customerIC ?? "", (file) {
+          //   setState(() {
+          //     isImageSelected = true;
+          //     // File Path for Customer IC
+          //     customerModel!.customerIC = file.path;
+          //   });
+          // }),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: FormHelper.inputFieldWidget(
@@ -89,7 +101,7 @@ class _AddCustomerState extends State<AddCustomer> {
               (onSavedVal) {
                 customerModel!.customer_name = onSavedVal;
               },
-              initialValue: customerModel!.customer_name!,
+              initialValue: customerModel!.customer_name ?? "",
               suffixIcon: const Icon(Icons.perm_identity_outlined),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -110,7 +122,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.ic = onSavedVal;
+              },
+              initialValue: customerModel!.ic ?? "",
               suffixIcon: const Icon(Icons.credit_card_rounded),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -131,7 +146,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.age = onSavedVal;
+              },
+              initialValue: customerModel!.age ?? "",
               suffixIcon: const Icon(Icons.calendar_today),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -152,7 +170,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.gender = onSavedVal;
+              },
+              initialValue: customerModel!.gender ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -172,7 +193,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.email = onSavedVal;
+              },
+              initialValue: customerModel!.email ?? "",
               suffixIcon: const Icon(Icons.email_outlined),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -193,7 +217,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.phone_number = onSavedVal;
+              },
+              initialValue: customerModel!.phone_number ?? "",
               suffixIcon: const Icon(Icons.phone),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -214,7 +241,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.marital_status = onSavedVal;
+              },
+              initialValue: customerModel!.marital_status ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -234,7 +264,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.race = onSavedVal;
+              },
+              initialValue: customerModel!.race ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -254,7 +287,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.nationality = onSavedVal;
+              },
+              initialValue: customerModel!.nationality ?? "",
               suffixIcon: const Icon(Icons.emoji_flags_outlined),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -275,7 +311,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.corr_address = onSavedVal;
+              },
+              initialValue: customerModel!.corr_address ?? "",
               suffixIcon: const Icon(Icons.house),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -296,7 +335,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.home_phone = onSavedVal;
+              },
+              initialValue: customerModel!.home_phone ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -316,7 +358,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.office_phone = onSavedVal;
+              },
+              initialValue: customerModel!.office_phone ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -336,7 +381,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.monthly_income = int.parse(onSavedVal);
+              },
+              initialValue: customerModel!.monthly_income.toString() ?? "",
               suffixIcon: const Icon(Icons.attach_money_sharp),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -357,7 +405,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.duties = onSavedVal;
+              },
+              initialValue: customerModel!.duties ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -377,7 +428,10 @@ class _AddCustomerState extends State<AddCustomer> {
                 }
                 return null;
               },
-              (onSaveVal) {},
+              (onSavedVal) {
+                customerModel!.business_nature = onSavedVal;
+              },
+              initialValue: customerModel!.business_nature ?? "",
               suffixIcon: const Icon(Icons.email_outlined),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
@@ -387,8 +441,35 @@ class _AddCustomerState extends State<AddCustomer> {
             ),
           ),
           Center(
-              child: FormHelper.submitButton("Save", () {},
-                  borderColor: Colors.white, borderRadius: 10))
+              child: FormHelper.submitButton("Save", () {
+            if (validateAndSave()) {
+              // API Service
+              setState(() {
+                isAPICallProcess = true;
+              });
+
+              APIService.saveCustomers(customerModel!, isEditMode)
+                  .then((response) {
+                setState(() {
+                  print(customerModel!.toJson());
+                  isAPICallProcess = false;
+                });
+
+                if (response) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/home',
+                    (route) => false,
+                  );
+                } else {
+                  FormHelper.showSimpleAlertDialog(
+                      context, Config.appName, "Error Occured", "OK", () {
+                    Navigator.of(context).pop();
+                  });
+                }
+              });
+            }
+          }, borderColor: Colors.white, borderRadius: 10))
         ],
       ),
     );
