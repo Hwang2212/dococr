@@ -31,13 +31,14 @@ class APIService {
     var customerURL = Config.customerURL;
 
     if (isEditMode) {
-      customerURL = customerURL + "/" + model.id.toString();
+      customerURL = customerURL + "/" + model.id!.toString();
     }
-    var url = Uri.http(Config.apiURL, Config.customerURL);
+
+    var url = Uri.http(Config.apiURL, customerURL);
 
     var requestMethod = isEditMode ? "PUT" : "POST";
 
-    // This is content-type is "multipart/form data" 
+    // This is content-type is "multipart/form data"
     var request = http.MultipartRequest(requestMethod, url);
     request.fields["customer_name"] = model.customer_name!;
     request.fields["ic"] = model.ic!;
@@ -65,8 +66,10 @@ class APIService {
     // }
 
     var response = await request.send();
-
-    if (response.statusCode == 201) {
+    print(response.statusCode);
+    print(customerURL);
+    print(url);
+    if (response.statusCode == 200) {
       return true;
     } else {
       return false;

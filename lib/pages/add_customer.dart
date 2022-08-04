@@ -452,6 +452,8 @@ class _AddCustomerState extends State<AddEditCustomer> {
                   .then((response) {
                 setState(() {
                   print(customerModel!.toJson());
+                  print(isEditMode);
+
                   isAPICallProcess = false;
                 });
 
