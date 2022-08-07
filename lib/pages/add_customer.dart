@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AddEditCustomer extends StatefulWidget {
   const AddEditCustomer({Key? key}) : super(key: key);
@@ -79,13 +80,17 @@ class _AddCustomerState extends State<AddEditCustomer> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // icPicker(isImageSelected, customerModel!.customerIC ?? "", (file) {
-          //   setState(() {
-          //     isImageSelected = true;
-          //     // File Path for Customer IC
-          //     customerModel!.customerIC = file.path;
-          //   });
-          // }),
+          Center(
+            child: icPicker(
+                isImageSelected, customerModel!.customer_ic_path ?? "", (file) {
+              setState(() {
+                isImageSelected = true;
+                // File Path for Customer IC
+                customerModel!.customer_ic_path = file.path;
+                print(customerModel!.customer_ic_path);
+              });
+            }),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: FormHelper.inputFieldWidget(
@@ -114,7 +119,7 @@ class _AddCustomerState extends State<AddEditCustomer> {
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerIC",
+              "customer_ic_path",
               "Customer IC",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
@@ -448,7 +453,8 @@ class _AddCustomerState extends State<AddEditCustomer> {
                 isAPICallProcess = true;
               });
 
-              APIService.saveCustomers(customerModel!, isEditMode)
+              APIService.saveCustomers(
+                      customerModel!, isEditMode, isImageSelected)
                   .then((response) {
                 setState(() {
                   print(customerModel!.toJson());
@@ -495,8 +501,8 @@ class _AddCustomerState extends State<AddEditCustomer> {
                     width: 200,
                   )
                 : SizedBox(
-                    child: Image.network(
-                    fileName,
+                    child: Image.file(
+                    File(fileName),
                     height: 200,
                     width: 200,
                     fit: BoxFit.scaleDown,

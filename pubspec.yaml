@@ -39,6 +39,9 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_progress_hud: ^2.0.2
   snippet_coder_utils: ^1.0.12
+  dio: ^4.0.6
+  mime: ^1.0.2
+  file_picker: ^5.0.1
 
 dev_dependencies:
   flutter_test:

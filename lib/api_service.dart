@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:mime/mime.dart';
 
 class APIService {
   static var client = http.Client();
@@ -27,6 +29,7 @@ class APIService {
   static Future<bool> saveCustomers(
     CustomerModel model,
     bool isEditMode,
+    bool isImageSelected,
   ) async {
     var customerURL = Config.customerURL;
 
@@ -40,6 +43,7 @@ class APIService {
 
     // This is content-type is "multipart/form data"
     var request = http.MultipartRequest(requestMethod, url);
+    request.headers['Content-Type'] = 'multipart/form-data';
     request.fields["customer_name"] = model.customer_name!;
     request.fields["ic"] = model.ic!;
     request.fields["age"] = model.age!;
@@ -56,19 +60,13 @@ class APIService {
     request.fields["duties"] = model.duties!;
     request.fields["business_nature"] = model.business_nature!;
 
-    // if (model.customerIC != null) {
-    //   http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-    //     'customerIC',
-    //     model.customerIC!,
-    //   );
-
-    // request.files.add(multipartFile);
-    // }
+    if (model.customer_ic_path != null && isImageSelected) {
+      request.files.add(await http.MultipartFile.fromPath(
+          "customer_ic_path", model.customer_ic_path!,
+          contentType: MediaType('multipart', 'form-data')));
+    }
 
     var response = await request.send();
-    print(response.statusCode);
-    print(customerURL);
-    print(url);
     if (response.statusCode == 200) {
       return true;
     } else {

@@ -58,8 +58,10 @@ class _ProfileState extends State<Profile> {
                   Center(
                     child: OutlinedButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/add-edit-customer',
-                              arguments: {'model': widget.customers, });
+                          Navigator.of(context)
+                              .pushNamed('/add-edit-customer', arguments: {
+                            'model': widget.customers,
+                          });
                         },
                         child: Text(
                           'Edit Customer Details',

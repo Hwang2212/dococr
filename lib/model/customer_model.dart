@@ -21,7 +21,7 @@ class CustomerModel {
   late int? monthly_income;
   late String? duties;
   late String? business_nature;
-  // late String? customerIC;
+  late String? customer_ic_path;
 
   CustomerModel({
     this.id,
@@ -41,7 +41,7 @@ class CustomerModel {
     this.monthly_income,
     this.duties,
     this.business_nature,
-    // this.customerIC,
+    this.customer_ic_path,
   });
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
@@ -62,7 +62,7 @@ class CustomerModel {
     monthly_income = json['monthly_income'];
     duties = json['duties'];
     business_nature = json['business_nature'];
-    // customerIC = json['customerIC'];
+    customer_ic_path = json['customer_ic_path'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,7 +85,7 @@ class CustomerModel {
     _data['monthly_income'] = monthly_income;
     _data['duties'] = duties;
     _data['business_nature'] = business_nature;
-    // _data['customerIC'] = customerIC;
+    _data['customer_ic_path'] = customer_ic_path;
 
     return _data;
   }
