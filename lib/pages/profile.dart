@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:dococr/pages/add_customer.dart';
-import 'package:dococr/pages/doc.dart';
-import 'package:dococr/pages/home.dart';
-import 'package:dococr/pages/ic.dart';
+import 'package:dococr/pages/health_list.dart';
+import 'package:dococr/pages/customer_list.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -65,6 +64,24 @@ class _ProfileState extends State<Profile> {
                         },
                         child: Text(
                           'Edit Customer Details',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                            fixedSize: Size.fromWidth(400.0),
+                            shape: StadiumBorder(),
+                            side: BorderSide(width: 2.0))),
+                  ),
+                  Center(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HealthList(health: widget.customers)));
+                        },
+                        child: Text(
+                          'View Health Details',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         style: OutlinedButton.styleFrom(
@@ -165,38 +182,6 @@ class _ProfileState extends State<Profile> {
                   ),
                   SizedBox(
                     height: 10.0,
-                  ),
-                  Center(
-                    child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => IC()));
-                        },
-                        child: Text(
-                          'Upload IC',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                            fixedSize: Size.fromWidth(400.0),
-                            shape: StadiumBorder(),
-                            side: BorderSide(width: 2.0))),
-                  ),
-                  Center(
-                    child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DocumentUpload()));
-                        },
-                        child: Text(
-                          'Upload Documents',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                            fixedSize: Size.fromWidth(400.0),
-                            shape: StadiumBorder(),
-                            side: BorderSide(width: 2.0))),
                   ),
                 ],
               )),

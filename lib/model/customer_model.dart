@@ -22,6 +22,7 @@ class CustomerModel {
   late String? duties;
   late String? business_nature;
   late String? customer_ic_path;
+  late String? customer_ic_driveid;
 
   CustomerModel({
     this.id,
@@ -42,6 +43,7 @@ class CustomerModel {
     this.duties,
     this.business_nature,
     this.customer_ic_path,
+    this.customer_ic_driveid,
   });
 
   CustomerModel.fromJson(Map<String, dynamic> json) {
@@ -63,6 +65,7 @@ class CustomerModel {
     duties = json['duties'];
     business_nature = json['business_nature'];
     customer_ic_path = json['customer_ic_path'];
+    customer_ic_driveid = json['customer_ic_driveid'];
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +89,7 @@ class CustomerModel {
     _data['duties'] = duties;
     _data['business_nature'] = business_nature;
     _data['customer_ic_path'] = customer_ic_path;
+    _data['customer_ic_driveid'] = customer_ic_driveid;
 
     return _data;
   }

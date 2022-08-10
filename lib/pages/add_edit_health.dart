@@ -10,15 +10,15 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:file_picker/file_picker.dart';
 
-class AddEditCustomer extends StatefulWidget {
-  const AddEditCustomer({Key? key}) : super(key: key);
-  static const routeName = "/add-edit-customer";
+class AddEditHealth extends StatefulWidget {
+  const AddEditHealth({Key? key}) : super(key: key);
+  static const routeName = "/add-edit-health";
 
   @override
-  State<AddEditCustomer> createState() => _AddCustomerState();
+  State<AddEditHealth> createState() => _AddHealthState();
 }
 
-class _AddCustomerState extends State<AddEditCustomer> {
+class _AddHealthState extends State<AddEditHealth> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   CustomerModel? customerModel;

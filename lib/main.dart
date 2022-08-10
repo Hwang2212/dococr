@@ -1,15 +1,13 @@
 import 'package:dococr/pages/add_customer.dart';
-import 'package:dococr/pages/doc.dart';
 import 'package:flutter/material.dart';
-import 'package:dococr/pages/ic.dart';
-import 'package:dococr/pages/home.dart';
+import 'package:dococr/pages/customer_list.dart';
 
 void main() => runApp(MaterialApp(
-      initialRoute: '/home',
+      initialRoute: '/customerlist',
       routes: {
-        '/home': (context) => Home(),
-        '/ic': (context) => IC(),
-        '/doc': (context) => DocumentUpload(),
-        '/add-edit-customer': (context) => new AddEditCustomer()
+        // '/home': (context) => Home(),
+        '/add-edit-customer': (context) => new AddEditCustomer(),
+        '/customerlist': (context) => new CustomerList()
+        // '/add-edit-customer': (context) => new AddEditCustomer()
       },
     ));
