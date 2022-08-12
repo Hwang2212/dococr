@@ -39,7 +39,7 @@ class APIService {
 
     var url = Uri.http(Config.apiURL, customerURL);
 
-    var requestMethod = isEditMode ? "PUT" : "POST";
+    var requestMethod = isEditMode ? "PATCH" : "POST";
 
     // This is content-type is "multipart/form data"
     var request = http.MultipartRequest(requestMethod, url);

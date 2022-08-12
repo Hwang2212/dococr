@@ -97,8 +97,9 @@ class _AddCustomerState extends State<AddEditCustomer> {
                 ),
                 child: Center(
                   child: icPicker(isImageSelected, selectedImage!, (file) {
+                    isImageSelected = true;
+                    print(selectedImage);
                     setState(() {
-                      isImageSelected = true;
                       // File Path for Customer IC
                       customerModel!.customer_ic_path = file.path;
                       selectedImage = customerModel!.customer_ic_path;
@@ -476,6 +477,7 @@ class _AddCustomerState extends State<AddEditCustomer> {
                 setState(() {
                   print(customerModel!.toJson());
                   print(isEditMode);
+                  print(response);
 
                   isAPICallProcess = false;
                 });
@@ -483,7 +485,7 @@ class _AddCustomerState extends State<AddEditCustomer> {
                 if (response) {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/home',
+                    '/customerlist',
                     (route) => false,
                   );
                 } else {

@@ -19,15 +19,7 @@ enum _MenuValues { add_edit_underwritingform, add_edit_customers }
 class _CustomerListState extends State<CustomerList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'CustomerList',
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.white,
-        ),
-        body: loadCustomers());
+    return Scaffold(body: loadCustomers());
   }
 
   Widget customerList(customers) {
@@ -42,7 +34,7 @@ class _CustomerListState extends State<CustomerList> {
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     onPrimary: Colors.black,
-                    primary: Color.fromARGB(255, 252, 252, 73),
+                    primary: Color.fromARGB(255, 176, 250, 255),
                     minimumSize: const Size(88.0, 36.0),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     shape: const RoundedRectangleBorder(
@@ -72,13 +64,17 @@ class _CustomerListState extends State<CustomerList> {
                               builder: (context) =>
                                   Profile(customers: customers[index])));
                     },
-                    tileColor: Color.fromARGB(255, 255, 255, 220),
+                    tileColor: Color.fromARGB(255, 176, 250, 255),
                     selectedTileColor: Color.fromARGB(255, 252, 252, 73),
                     hoverColor: Color.fromARGB(255, 252, 252, 73),
                     title: Text(
                       customers[index].customer_name,
                       style: TextStyle(
-                          color: Color.fromARGB(255, 0, 57, 212), fontSize: 25),
+                        color: Colors.black,
+                        fontSize: 25,
+                        letterSpacing: 3.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     trailing: PopupMenuButton<_MenuValues>(
                       itemBuilder: ((context) => [

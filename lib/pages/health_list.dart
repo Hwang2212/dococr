@@ -70,7 +70,7 @@ Widget healthList(health) {
               title: Text(
                 "Added on",
                 style: TextStyle(
-                    color: Color.fromARGB(255, 255, 54, 54), fontSize: 25),
+                    color: Color.fromARGB(255, 255, 54, 54), fontSize: 12),
               ),
               subtitle: Text(
                 health[index].created_at,
