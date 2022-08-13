@@ -1,23 +1,24 @@
 import 'package:dococr/pages/customer_list.dart';
+import 'package:dococr/pages/customer_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HomeBody(),
+      body: HomeScreenBody(),
     );
   }
 
-  Widget HomeBody() {
+  Widget HomeScreenBody() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,8 +149,8 @@ class _HomeState extends State<Home> {
           ),
         ),
         ConstrainedBox(
-          child: CustomerList(),
-          constraints: BoxConstraints(maxHeight: 280),
+          child: CustomerListWidget(),
+          constraints: BoxConstraints(maxHeight: 290),
         )
       ],
     );
