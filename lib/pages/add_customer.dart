@@ -12,13 +12,13 @@ import 'package:file_picker/file_picker.dart';
 
 class AddEditCustomer extends StatefulWidget {
   const AddEditCustomer({Key? key}) : super(key: key);
-  static const routeName = "/add-edit-customer";
+  static const routeName = "/add-edit-health";
 
   @override
-  State<AddEditCustomer> createState() => _AddCustomerState();
+  State<AddEditCustomer> createState() => _AddHealthState();
 }
 
-class _AddCustomerState extends State<AddEditCustomer> {
+class _AddHealthState extends State<AddEditCustomer> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   CustomerModel? customerModel;
@@ -89,28 +89,40 @@ class _AddCustomerState extends State<AddEditCustomer> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent),
-                ),
-                child: Center(
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueAccent),
+            ),
+            child: Column(
+              children: [
+                Text('Customer IC Picture',
+                    style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0)),
+                Center(
                   child: icPicker(isImageSelected, selectedImage!, (file) {
-                    isImageSelected = true;
-                    print(selectedImage);
                     setState(() {
+                      isImageSelected = true;
                       // File Path for Customer IC
                       customerModel!.customer_ic_path = file.path;
                       selectedImage = customerModel!.customer_ic_path;
                     });
                   }),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Customer Name',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 10),
+            padding: const EdgeInsets.only(bottom: 10, top: 8),
             child: FormHelper.inputFieldWidget(
               context,
               "CustomerName",
@@ -132,6 +144,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               hintColor: Colors.black.withOpacity(.7),
               borderRadius: 10,
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Customer IC',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
@@ -157,6 +177,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Customer Age',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -181,6 +209,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Gender',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -203,6 +239,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               hintColor: Colors.black.withOpacity(.7),
               borderRadius: 10,
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Email',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
@@ -228,6 +272,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Phone Number',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -252,6 +304,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Marital Status',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -275,6 +335,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Ethnicity',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -297,6 +365,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               hintColor: Colors.black.withOpacity(.7),
               borderRadius: 10,
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Nationality',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
@@ -322,6 +398,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Corresponding Address',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -346,6 +430,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('House Phone Number',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -369,6 +461,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Office Phone Number',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -391,6 +491,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               hintColor: Colors.black.withOpacity(.7),
               borderRadius: 10,
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('What is Customers Monthly Income',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
@@ -416,6 +524,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Job',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
@@ -438,6 +554,14 @@ class _AddCustomerState extends State<AddEditCustomer> {
               hintColor: Colors.black.withOpacity(.7),
               borderRadius: 10,
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Industry Working In',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
@@ -475,9 +599,6 @@ class _AddCustomerState extends State<AddEditCustomer> {
                       customerModel!, isEditMode, isImageSelected)
                   .then((response) {
                 setState(() {
-                  print(customerModel!.toJson());
-                  print(isEditMode);
-                  print(response);
 
                   isAPICallProcess = false;
                 });
@@ -485,7 +606,7 @@ class _AddCustomerState extends State<AddEditCustomer> {
                 if (response) {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/customerlist',
+                    '/home',
                     (route) => false,
                   );
                 } else {

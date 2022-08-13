@@ -1,5 +1,5 @@
 import 'package:dococr/pages/customer_list.dart';
-import 'package:dococr/pages/customer_list_widget.dart';
+import 'package:dococr/widget/customer_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

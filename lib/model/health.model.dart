@@ -5,6 +5,7 @@ List<HealthModel> healthFromJson(dynamic str) =>
 
 class HealthModel {
   late int? id;
+  late int? uw_id;
   late String? created_at;
   late String? weight;
   late String? height;
@@ -21,6 +22,7 @@ class HealthModel {
 
   HealthModel({
     this.id,
+    this.uw_id,
     this.created_at,
     this.weight,
     this.height,
@@ -38,6 +40,7 @@ class HealthModel {
 
   HealthModel.fromJson(Map<String, dynamic> json) {
     id = int.parse(json['id']);
+    uw_id = int.parse(json['uw_id']);
     created_at = json['created_at'];
     weight = json['weight'].toString();
     height = json['height'].toString();
@@ -57,6 +60,7 @@ class HealthModel {
     final _data = <String, dynamic>{};
 
     _data['id'] = id;
+    _data['uw_id'] = uw_id;
     _data['created_at'] = created_at;
     _data['weight'] = weight;
     _data['height'] = height;

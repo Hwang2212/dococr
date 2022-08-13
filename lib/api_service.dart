@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
 import 'package:dococr/model/health.model.dart';
@@ -112,25 +113,32 @@ class APIService {
   }
 
   static Future<bool> saveHealth(
-    HealthModel model,
-    bool isEditMode,
-    bool isImageSelected,
-  ) async {
-    var customerURL = Config.customerURL;
+      HealthModel model, bool isEditMode, int cust_id) async {
+    print(model.toJson());
+    var healthURL = Config.healthURL;
+    // if (isEditMode) {
+    //   healthURL = healthURL + "/" + model.id!.toString();
+    // }
 
-    if (isEditMode) {
-      customerURL = customerURL + "/" + model.id!.toString();
-    }
-
-    var url = Uri.http(Config.apiURL, customerURL);
+    healthURL = healthURL + "/customer/" + cust_id.toString();
+    var url = Uri.http(Config.apiURL, healthURL);
 
     var requestMethod = isEditMode ? "PUT" : "POST";
 
     // This is content-type is "multipart/form data"
     var request = http.MultipartRequest(requestMethod, url);
-    // request.headers['Content-Type'] = 'multipart/form-data';
-    // request.fields["customer_name"] = model.customer_name!;
-    // request.fields["ic"] = model.ic!;
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields["uw_id"] = model.uw_id!.toString();
+    request.fields["height"] = model.height!;
+    request.fields["weight"] = model.weight!;
+    request.fields["current_ill"] = model.current_ill!;
+    request.fields["five_years_ill"] = model.five_years_ill!;
+    request.fields["hazardact"] = model.hazardact!;
+    request.fields["rejectinsurance"] = model.rejectinsurance!;
+    request.fields["hiv"] = model.hiv!;
+    request.fields["alcoholic"] = model.alcoholic!;
+    request.fields["ancestral_ill"] = model.ancestral_ill!;
+    request.fields["ancestral_desc"] = model.ancestral_desc!;
 
     // if (model.customer_ic_path != null && isImageSelected) {
     //   request.files.add(await http.MultipartFile.fromPath(

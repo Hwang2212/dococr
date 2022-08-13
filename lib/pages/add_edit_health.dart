@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dococr/api_service.dart';
 import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
+import 'package:dococr/model/health.model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
@@ -11,8 +12,10 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:file_picker/file_picker.dart';
 
 class AddEditHealth extends StatefulWidget {
-  const AddEditHealth({Key? key}) : super(key: key);
+  const AddEditHealth({Key? key, required this.customer}) : super(key: key);
   static const routeName = "/add-edit-health";
+
+  final customer;
 
   @override
   State<AddEditHealth> createState() => _AddHealthState();
@@ -21,18 +24,15 @@ class AddEditHealth extends StatefulWidget {
 class _AddHealthState extends State<AddEditHealth> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
-  CustomerModel? customerModel;
+  HealthModel? healthModel;
   bool isEditMode = false;
-  String? selectedImage;
-  bool isImageSelected = false;
-  bool isImageDrive = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Add Client Details',
+          'Add Client Health Details',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -40,7 +40,7 @@ class _AddHealthState extends State<AddEditHealth> {
       body: ProgressHUD(
         child: Form(
           key: globalKey,
-          child: customerForm(),
+          child: healthForm(),
         ),
         inAsyncCall: isAPICallProcess,
         opacity: .3,
@@ -61,13 +61,13 @@ class _AddHealthState extends State<AddEditHealth> {
   @override
   void initState() {
     super.initState();
-    customerModel = CustomerModel();
+    healthModel = HealthModel();
 
     Future.delayed(Duration.zero, (() {
       if (ModalRoute.of(context)?.settings.arguments != null) {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
 
-        customerModel = arguments["model"];
+        healthModel = arguments["model"];
 
         setState(() {
           isEditMode = true;
@@ -76,55 +76,36 @@ class _AddHealthState extends State<AddEditHealth> {
     }));
   }
 
-  Widget customerForm() {
-    if (customerModel!.customer_ic_driveid != null &&
-        isImageSelected == false) {
-      isImageDrive == true;
-      selectedImage = customerModel!.customer_ic_driveid;
-    } else {
-      selectedImage = customerModel!.customer_ic_path ?? "";
-    }
+  Widget healthForm() {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent),
-                ),
-                child: Center(
-                  child: icPicker(isImageSelected, selectedImage!, (file) {
-                    setState(() {
-                      isImageSelected = true;
-                      // File Path for Customer IC
-                      customerModel!.customer_ic_path = file.path;
-                      selectedImage = customerModel!.customer_ic_path;
-                    });
-                  }),
-                ),
-              ),
-            ],
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Underwriting Form ID',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerName",
-              "Customer Name",
+              "Underwriting Form ID",
+              "Underwriting Form ID",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Customer Name can't be empty";
+                  return "Underwritng Form ID can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.customer_name = onSavedVal;
+                healthModel!.uw_id = int.parse(onSavedVal);
               },
-              initialValue: customerModel!.customer_name ?? "",
-              suffixIcon: const Icon(Icons.perm_identity_outlined),
+              initialValue: healthModel!.uw_id.toString(),
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -132,23 +113,30 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Input Height',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 5),
+            padding: const EdgeInsets.only(bottom: 10, top: 10),
             child: FormHelper.inputFieldWidget(
               context,
-              "customer_ic_path",
-              "Customer IC",
+              "InputHeight",
+              "Input Height",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Customer IC can't be empty";
+                  return "Height can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.ic = onSavedVal;
+                healthModel!.height = onSavedVal;
               },
-              initialValue: customerModel!.ic ?? "",
-              suffixIcon: const Icon(Icons.credit_card_rounded),
+              initialValue: healthModel!.height ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -156,12 +144,51 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Input Weight',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "Age",
-              "Age",
+              "CustomerWeight",
+              "Customer Weight",
+              (onValidateVal) {
+                if (onValidateVal.isEmpty) {
+                  return "Customer Weight can't be empty";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                healthModel!.weight = onSavedVal;
+              },
+              initialValue: healthModel!.weight ?? "",
+              borderColor: Colors.black,
+              borderFocusColor: Colors.black,
+              textColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.7),
+              borderRadius: 10,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Has the Client Contracted Any Illness Recently?',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10, top: 5),
+            child: FormHelper.inputFieldWidget(
+              context,
+              "Current Illness",
+              "Current Illness",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
                   return "Age can't be empty";
@@ -169,10 +196,9 @@ class _AddHealthState extends State<AddEditHealth> {
                 return null;
               },
               (onSavedVal) {
-                customerModel!.age = onSavedVal;
+                healthModel!.current_ill = onSavedVal;
               },
-              initialValue: customerModel!.age ?? "",
-              suffixIcon: const Icon(Icons.calendar_today),
+              initialValue: healthModel!.current_ill ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -180,22 +206,31 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child:
+                Text('Has the Client Contracted Any Illness in Past 5 Years?',
+                    style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold,
+                    )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerGender",
-              "Gender",
+              "Past 5 Years Illness",
+              "Past 5 Years Illness",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Customer Gender can't be empty";
+                  return "Past 5 Years Illness can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.gender = onSavedVal;
+                healthModel!.five_years_ill = onSavedVal;
               },
-              initialValue: customerModel!.gender ?? "",
+              initialValue: healthModel!.five_years_ill ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -203,23 +238,31 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text(
+                'Has the Client Participated in Any Hazardous Activities? If Yes, Please Specify',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerEmail",
-              "Email",
+              "Hazardous Activities",
+              "Hazardous Activities",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Customer Email can't be empty";
+                  return "Hazardous Activities can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.email = onSavedVal;
+                healthModel!.hazardact = onSavedVal;
               },
-              initialValue: customerModel!.email ?? "",
-              suffixIcon: const Icon(Icons.email_outlined),
+              initialValue: healthModel!.hazardact ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -227,23 +270,31 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text(
+                'Has the Client Had His/Her Insurance Application Rejected Before? If Yes, Please Specify',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerPhone",
-              "Phone Number",
+              "Rejected Insurance",
+              "Rejected Insurance",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Phone Number can't be empty";
+                  return "Rejected Insurance can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.phone_number = onSavedVal;
+                healthModel!.rejectinsurance = onSavedVal;
               },
-              initialValue: customerModel!.phone_number ?? "",
-              suffixIcon: const Icon(Icons.phone),
+              initialValue: healthModel!.rejectinsurance ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -251,22 +302,30 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Is the Client a Smoker?',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerMarital",
-              "Marital Status",
+              "Smoker",
+              "Smoker",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Marital Status can't be empty";
+                  return "Smoker Status can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.marital_status = onSavedVal;
+                healthModel!.smoker = onSavedVal;
               },
-              initialValue: customerModel!.marital_status ?? "",
+              initialValue: healthModel!.smoker ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -274,22 +333,30 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Is the Client a HIV Patient?',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerRace",
-              "Race",
+              "HIV",
+              "HIV",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Race can't be empty";
+                  return "HIV can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.race = onSavedVal;
+                healthModel!.hiv = onSavedVal;
               },
-              initialValue: customerModel!.race ?? "",
+              initialValue: healthModel!.hiv ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -297,23 +364,30 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Is the Client an Alcoholic?',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CustomerNationality",
-              "Nationality",
+              "Alcoholic",
+              "Alcoholic",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Customer Nationality can't be empty";
+                  return "Alcoholic can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.nationality = onSavedVal;
+                healthModel!.alcoholic = onSavedVal;
               },
-              initialValue: customerModel!.nationality ?? "",
-              suffixIcon: const Icon(Icons.emoji_flags_outlined),
+              initialValue: healthModel!.alcoholic ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -321,23 +395,31 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text(
+                'Does the Customer Have Any Illness Passed Down Ancestrally?',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "CorrespondingAddress",
-              "Corresponding Address",
+              "ANCESTRAL ILLNESS ",
+              "ANCESTRAL ILLNESS ",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Corresponding Address can't be empty";
+                  return "ANCESTRAL ILLNESS  can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.corr_address = onSavedVal;
+                healthModel!.ancestral_ill = onSavedVal;
               },
-              initialValue: customerModel!.corr_address ?? "",
-              suffixIcon: const Icon(Icons.house),
+              initialValue: healthModel!.ancestral_ill ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -345,116 +427,30 @@ class _AddHealthState extends State<AddEditHealth> {
               borderRadius: 10,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 5),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "HousePhone",
-              "House Phone",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "House Phone can't be empty";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                customerModel!.home_phone = onSavedVal;
-              },
-              initialValue: customerModel!.home_phone ?? "",
-              borderColor: Colors.black,
-              borderFocusColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.7),
-              borderRadius: 10,
-            ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text('Provide the Details of Ancestral Illness of Customer',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, top: 5),
             child: FormHelper.inputFieldWidget(
               context,
-              "OfficePhone",
-              "Office Phone Number",
+              "ANCESTRAL ILLNESS DESCRIPTION",
+              "ANCESTRAL ILLNESS DESCRIPTION",
               (onValidateVal) {
                 if (onValidateVal.isEmpty) {
-                  return "Office Phone Number can't be empty";
+                  return "ANCESTRAL ILLNESS DESCRIPTION can't be empty";
                 }
                 return null;
               },
               (onSavedVal) {
-                customerModel!.office_phone = onSavedVal;
+                healthModel!.ancestral_desc = onSavedVal;
               },
-              initialValue: customerModel!.office_phone ?? "",
-              borderColor: Colors.black,
-              borderFocusColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.7),
-              borderRadius: 10,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 5),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "MonthlyIncome",
-              "Monthly Income",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "Monthly Income can't be empty";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                customerModel!.monthly_income = int.parse(onSavedVal);
-              },
-              initialValue: customerModel!.monthly_income.toString() ?? "",
-              suffixIcon: const Icon(Icons.attach_money_sharp),
-              borderColor: Colors.black,
-              borderFocusColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.7),
-              borderRadius: 10,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 5),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "Duties",
-              "Job Duties",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "Job Duties can't be empty";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                customerModel!.duties = onSavedVal;
-              },
-              initialValue: customerModel!.duties ?? "",
-              borderColor: Colors.black,
-              borderFocusColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.7),
-              borderRadius: 10,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, top: 5),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "BusinessNature",
-              "Business Nature",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "Business Nature can't be empty";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                customerModel!.business_nature = onSavedVal;
-              },
-              initialValue: customerModel!.business_nature ?? "",
-              suffixIcon: const Icon(Icons.email_outlined),
+              initialValue: healthModel!.ancestral_desc ?? "",
               borderColor: Colors.black,
               borderFocusColor: Colors.black,
               textColor: Colors.black,
@@ -470,12 +466,11 @@ class _AddHealthState extends State<AddEditHealth> {
                 isAPICallProcess = true;
               });
 
-              APIService.saveCustomers(
-                      customerModel!, isEditMode, isImageSelected)
+              APIService.saveHealth(healthModel!, isEditMode,
+                      int.parse(widget.customer.id.toString()))
                   .then((response) {
                 setState(() {
-                  print(customerModel!.toJson());
-                  print(isEditMode);
+                  print(widget.customer.id);
 
                   isAPICallProcess = false;
                 });
@@ -497,81 +492,6 @@ class _AddHealthState extends State<AddEditHealth> {
           }, borderColor: Colors.white, borderRadius: 10))
         ],
       ),
-    );
-  }
-
-  static Widget icPicker(
-    bool isICSelected,
-    String fileName,
-    Function onFilePicked,
-  ) {
-    Future<XFile?> _imageFile;
-    ImagePicker _picker = ImagePicker();
-
-    return Column(
-      children: [
-        fileName.isNotEmpty
-            ? isICSelected
-                ? Image.file(
-                    File(fileName),
-                    height: 200,
-                    width: 200,
-                  )
-                : SizedBox(
-                    child: Image.network(
-                    'https://drive.google.com/uc?id=' + fileName,
-                    height: 200,
-                    width: 200,
-                    fit: BoxFit.scaleDown,
-                  ))
-            : SizedBox(
-                child: Image.network(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-                height: 200,
-                width: 200,
-                fit: BoxFit.scaleDown,
-              )),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Container(
-              height: 50,
-              width: 250.0,
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                ),
-                icon: Icon(Icons.camera),
-                label: Text('Upload by Camera'),
-                onPressed: () {
-                  _imageFile = _picker.pickImage(source: ImageSource.camera);
-                  _imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
-                },
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Container(
-              height: 50,
-              width: 250.0,
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                ),
-                icon: Icon(Icons.arrow_upward),
-                label: Text('Upload File'),
-                onPressed: () {
-                  _imageFile = _picker.pickImage(source: ImageSource.gallery);
-                  _imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
-                },
-              )),
-        ),
-      ],
     );
   }
 }

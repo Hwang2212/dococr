@@ -1,6 +1,6 @@
 import 'package:dococr/pages/add_customer.dart';
 import 'package:dococr/pages/mainpage.dart';
-import 'package:dococr/pages/homescreen.dart';
+import 'package:dococr/widget/homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:dococr/pages/customer_list.dart';
 

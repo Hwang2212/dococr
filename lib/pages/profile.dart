@@ -24,6 +24,13 @@ class _ProfileState extends State<Profile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              OutlinedButton(
+                onPressed: Navigator.of(context).pop,
+                child: Text(
+                  "Back",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(),
                 child: Text(
@@ -179,6 +186,128 @@ class _ProfileState extends State<Profile> {
                   )),
               Text(
                 widget.customers.email,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Race',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.customers.race,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Nationality',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.customers.nationality,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Corresponding Address',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.customers.corr_address,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('House Phone Number',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.customers.home_phone,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Office Phone Number',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.customers.office_phone,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Monthly Income',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                "RM  " + widget.customers.monthly_income.toString(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Job',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.customers.duties +
+                    ' at -' +
+                    widget.customers.business_nature +
+                    ' industry',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,

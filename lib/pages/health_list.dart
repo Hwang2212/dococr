@@ -3,7 +3,9 @@
 import 'package:dococr/api_service.dart';
 import 'package:dococr/model/health.model.dart';
 import 'package:dococr/pages/add_customer.dart';
+import 'package:dococr/pages/add_edit_health.dart';
 import 'package:dococr/pages/customer_list.dart';
+import 'package:dococr/pages/health_profile.dart';
 import 'package:flutter/material.dart';
 
 class HealthList extends StatefulWidget {
@@ -23,12 +25,33 @@ class _HealthListState extends State<HealthList> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Health Condition of ' + widget.health.customer_name,
+            'Health History of ' + widget.health.customer_name,
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.white,
         ),
-        body: loadhealth());
+        body: Column(
+          children: [
+            ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              onPrimary: Colors.black,
+              primary: Color.fromARGB(255, 176, 250, 255),
+              minimumSize: const Size(88.0, 36.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)))),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => AddEditHealth(customer: widget.health),
+              ),
+            );
+          },
+          child: const Text("Add Health")),
+            loadhealth(),
+          ],
+        ));
   }
 
   Widget loadhealth() {
@@ -40,10 +63,9 @@ class _HealthListState extends State<HealthList> {
       ) {
         if (model.hasData) {
           return healthList(model.data);
+        } else {
+          return Text("No Health History");
         }
-
-        return const CircleAvatar(
-            child: Center(child: CircularProgressIndicator()));
       },
     );
   }
@@ -55,6 +77,7 @@ Widget healthList(health) {
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
+      
       ListView.builder(
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
@@ -63,7 +86,13 @@ Widget healthList(health) {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HealthProfile(health: health[index])));
+              },
               tileColor: Color.fromARGB(255, 255, 255, 220),
               selectedTileColor: Color.fromARGB(255, 252, 252, 73),
               hoverColor: Color.fromARGB(255, 252, 252, 73),

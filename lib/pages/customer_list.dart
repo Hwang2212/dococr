@@ -1,7 +1,7 @@
 import 'package:dococr/api_service.dart';
 import 'package:dococr/model/customer_model.dart';
 import 'package:dococr/pages/add_customer.dart';
-import 'package:dococr/pages/customer_list_widget.dart';
+import 'package:dococr/widget/customer_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:dococr/pages/profile.dart';
 // import 'package:dococr/services/data.dart';
@@ -26,14 +26,13 @@ class _CustomerListState extends State<CustomerList> {
   Widget customerList() {
     return SingleChildScrollView(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: 30,
+              height: 50,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
