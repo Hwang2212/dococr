@@ -1,4 +1,5 @@
 import 'package:dococr/pages/add_customer.dart';
+import 'package:dococr/pages/add_edit_health.dart';
 import 'package:dococr/pages/mainpage.dart';
 import 'package:dococr/widget/homescreen.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,10 @@ void main() => runApp(MaterialApp(
       routes: {
         '/home': (context) => MainPage(),
         '/add-edit-customer': (context) => new AddEditCustomer(),
-        '/customerlist': (context) => new CustomerList()
-        // '/add-edit-health': (context) => new AddEditHealth()
+        '/add-edit-health': (context) => new AddEditHealth(
+              customer: context,
+            ),
+        '/customerlist': (context) => new CustomerList(),
+        // ignore: unnecessary_new
       },
     ));

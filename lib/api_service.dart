@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
 import 'package:dococr/model/health.model.dart';
+import 'package:dococr/model/underwrite_model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
@@ -104,7 +105,6 @@ class APIService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data[1].toString());
 
       return healthFromJson(data);
     } else {
@@ -114,13 +114,12 @@ class APIService {
 
   static Future<bool> saveHealth(
       HealthModel model, bool isEditMode, int cust_id) async {
-    print(model.toJson());
-    var healthURL = Config.healthURL;
-    // if (isEditMode) {
-    //   healthURL = healthURL + "/" + model.id!.toString();
-    // }
+    var healthURL = Config.healthURL + "/customer/" + cust_id.toString();
 
-    healthURL = healthURL + "/customer/" + cust_id.toString();
+    if (isEditMode) {
+      healthURL = healthURL + "/" + model.id!.toString();
+    }
+
     var url = Uri.http(Config.apiURL, healthURL);
 
     var requestMethod = isEditMode ? "PUT" : "POST";
@@ -145,6 +144,78 @@ class APIService {
     //       "customer_ic_path", model.customer_ic_path!,
     //       contentType: MediaType('multipart', 'form-data')));
     // }
+
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> saveUWForm(
+    CustomerModel customermodel,
+    HealthModel healthmodel,
+    UnderwriteModel underwriteModel,
+    bool isEditMode,
+  ) async {
+    var underwriteURL = Config.underwriteURL;
+
+    var url = Uri.http(Config.apiURL, underwriteURL);
+
+    var requestMethod = isEditMode ? "PATCH" : "POST";
+
+    // This is content-type is "multipart/form data"
+    var request = http.MultipartRequest(requestMethod, url);
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields["customer_name"] = customermodel.customer_name!;
+    request.fields["ic"] = customermodel.ic!;
+    request.fields["age"] = customermodel.age!;
+    request.fields["gender"] = customermodel.gender!;
+    request.fields["email"] = customermodel.email!;
+    request.fields["phone_number"] = customermodel.phone_number!;
+    request.fields["marital_status"] = customermodel.marital_status!;
+    request.fields["race"] = customermodel.race!;
+    request.fields["nationality"] = customermodel.nationality!;
+    request.fields["corr_address"] = customermodel.corr_address!;
+    request.fields["home_phone"] = customermodel.home_phone!;
+    request.fields["office_phone"] = customermodel.office_phone!;
+    request.fields["monthly_income"] = customermodel.monthly_income!.toString();
+    request.fields["duties"] = customermodel.duties!;
+    request.fields["business_nature"] = customermodel.business_nature!;
+
+    request.fields["policy_no"] = underwriteModel.policy_no!;
+    request.fields["product_name"] = underwriteModel.product_name!;
+    request.fields["product_code"] = underwriteModel.product_code!;
+    request.fields["staff_application"] = underwriteModel.staff_application!;
+    request.fields["remarks"] = underwriteModel.remarks!;
+    request.fields["bank_in_slipno"] = underwriteModel.bank_in_slipno!;
+    request.fields["plan_name"] = underwriteModel.plan_name!;
+    request.fields["plan_term"] = underwriteModel.plan_term!;
+    request.fields["plan_sum_assured"] = underwriteModel.plan_sum_assured!;
+    request.fields["plan_installment_premium"] =
+        underwriteModel.plan_installment_premium!;
+    request.fields["premium_payment_freq"] =
+        underwriteModel.premium_payment_freq!;
+    request.fields["initial_payment_method"] =
+        underwriteModel.initial_payment_method!;
+    request.fields["recurring_payment_method"] =
+        underwriteModel.recurring_payment_method!;
+    request.fields["bank_card_type"] = underwriteModel.bank_card_type!;
+    request.fields["bank_card_expiry"] = underwriteModel.bank_card_expiry!;
+    request.fields["bank_card_issuer"] = underwriteModel.bank_card_issuer!;
+    request.fields["bank_card_no"] = underwriteModel.bank_card_no!;
+
+    request.fields["height"] = healthmodel.height!;
+    request.fields["weight"] = healthmodel.weight!;
+    request.fields["current_ill"] = healthmodel.current_ill!;
+    request.fields["five_years_ill"] = healthmodel.five_years_ill!;
+    request.fields["hazardact"] = healthmodel.hazardact!;
+    request.fields["rejectinsurance"] = healthmodel.rejectinsurance!;
+    request.fields["hiv"] = healthmodel.hiv!;
+    request.fields["alcoholic"] = healthmodel.alcoholic!;
+    request.fields["ancestral_ill"] = healthmodel.ancestral_ill!;
+    request.fields["ancestral_desc"] = healthmodel.ancestral_desc!;
 
     var response = await request.send();
     if (response.statusCode == 200) {

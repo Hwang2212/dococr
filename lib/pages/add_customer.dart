@@ -15,10 +15,10 @@ class AddEditCustomer extends StatefulWidget {
   static const routeName = "/add-edit-health";
 
   @override
-  State<AddEditCustomer> createState() => _AddHealthState();
+  State<AddEditCustomer> createState() => _AddCustomerState();
 }
 
-class _AddHealthState extends State<AddEditCustomer> {
+class _AddCustomerState extends State<AddEditCustomer> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAPICallProcess = false;
   CustomerModel? customerModel;
@@ -599,7 +599,6 @@ class _AddHealthState extends State<AddEditCustomer> {
                       customerModel!, isEditMode, isImageSelected)
                   .then((response) {
                 setState(() {
-
                   isAPICallProcess = false;
                 });
 

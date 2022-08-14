@@ -1,3 +1,4 @@
+import 'package:dococr/pages/add_underwritingform.dart';
 import 'package:dococr/pages/customer_list.dart';
 import 'package:dococr/widget/customer_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const AddEditUnderwriteForm(),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -150,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ConstrainedBox(
           child: CustomerListWidget(),
-          constraints: BoxConstraints(maxHeight: 290),
+          constraints: BoxConstraints(maxHeight: 240),
         )
       ],
     );

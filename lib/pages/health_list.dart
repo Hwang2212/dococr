@@ -33,22 +33,23 @@ class _HealthListState extends State<HealthList> {
         body: Column(
           children: [
             ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              onPrimary: Colors.black,
-              primary: Color.fromARGB(255, 176, 250, 255),
-              minimumSize: const Size(88.0, 36.0),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)))),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => AddEditHealth(customer: widget.health),
-              ),
-            );
-          },
-          child: const Text("Add Health")),
+                style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.black,
+                    primary: Color.fromARGB(255, 176, 250, 255),
+                    minimumSize: const Size(88.0, 36.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)))),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          AddEditHealth(customer: widget.health),
+                    ),
+                  );
+                },
+                child: const Text("Add Health")),
             loadhealth(),
           ],
         ));
@@ -71,13 +72,14 @@ class _HealthListState extends State<HealthList> {
   }
 }
 
+enum _HealthValues { add_edit_health }
+
 Widget healthList(health) {
   return SingleChildScrollView(
       child: Column(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      
       ListView.builder(
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
@@ -109,6 +111,25 @@ Widget healthList(health) {
                   letterSpacing: 1.0,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              trailing: PopupMenuButton<_HealthValues>(
+                itemBuilder: ((context) => [
+                      PopupMenuItem(
+                        child: Text('Edit Health Details'),
+                        value: _HealthValues.add_edit_health,
+                      ),
+                    ]),
+                onSelected: (value) {
+                  switch (value) {
+                    case _HealthValues.add_edit_health:
+                      Navigator.of(context).pushNamed('/add-edit-health',
+                          arguments: {
+                            'model': health[index],
+                            'cust_id': health[index].id
+                          });
+                      break;
+                  }
+                },
               ),
             ),
           );
