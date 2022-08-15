@@ -5,6 +5,7 @@ import 'package:dococr/config.dart';
 import 'package:dococr/model/customer_model.dart';
 import 'package:dococr/model/health.model.dart';
 import 'package:dococr/model/underwrite_model.dart';
+import 'package:dococr/model/underwriteform_model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
@@ -139,11 +140,6 @@ class APIService {
     request.fields["ancestral_ill"] = model.ancestral_ill!;
     request.fields["ancestral_desc"] = model.ancestral_desc!;
 
-    // if (model.customer_ic_path != null && isImageSelected) {
-    //   request.files.add(await http.MultipartFile.fromPath(
-    //       "customer_ic_path", model.customer_ic_path!,
-    //       contentType: MediaType('multipart', 'form-data')));
-    // }
 
     var response = await request.send();
     if (response.statusCode == 200) {
@@ -153,6 +149,7 @@ class APIService {
     }
   }
 
+  // UNDERWRITING FORM
   static Future<bool> saveUWForm(
     CustomerModel customermodel,
     HealthModel healthmodel,
@@ -216,6 +213,38 @@ class APIService {
     request.fields["alcoholic"] = healthmodel.alcoholic!;
     request.fields["ancestral_ill"] = healthmodel.ancestral_ill!;
     request.fields["ancestral_desc"] = healthmodel.ancestral_desc!;
+
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  static Future<bool> uploadUWForm(
+    UnderwriteFormModel model,
+
+  ) async {
+    var uploadUWURL = Config.underwriteURL+Config.uploadURL;
+
+
+
+    var url = Uri.http(Config.apiURL, uploadUWURL);
+
+    var requestMethod =  "POST";
+
+    // This is content-type is "multipart/form data"
+    var request = http.MultipartRequest(requestMethod, url);
+    request.headers['Content-Type'] = 'multipart/form-data';
+    request.fields["file_name"] = model.file_name!;
+
+    if (model.uw_filepath != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+          "uw_filepath", model.uw_filepath!,
+          contentType: MediaType('multipart', 'form-data')));
+    }
 
     var response = await request.send();
     if (response.statusCode == 200) {

@@ -32,6 +32,7 @@ class _CustomerListStateWidget extends State<CustomerListWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.vertical,

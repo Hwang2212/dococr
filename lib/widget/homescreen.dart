@@ -1,5 +1,6 @@
 import 'package:dococr/pages/add_underwritingform.dart';
 import 'package:dococr/pages/customer_list.dart';
+import 'package:dococr/pages/upload_uwform.dart';
 import 'package:dococr/widget/customer_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -105,7 +106,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                onTap: (() {})),
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const UploadUnderwritingForm()));
+                })),
             InkWell(
               child: Container(
                 height: 120,

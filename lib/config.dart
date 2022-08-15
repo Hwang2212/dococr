@@ -5,4 +5,5 @@ class Config {
   static const String customerURL = "/customer";
   static const String healthURL = "/health";
   static const String underwriteURL = "/underwrite";
+  static const String uploadURL = "/upload";
 }
