@@ -12,7 +12,7 @@ import 'package:file_picker/file_picker.dart';
 
 class AddEditCustomer extends StatefulWidget {
   const AddEditCustomer({Key? key}) : super(key: key);
-  static const routeName = "/add-edit-health";
+  static const routeName = "/add-edit-customer";
 
   @override
   State<AddEditCustomer> createState() => _AddCustomerState();
@@ -68,6 +68,7 @@ class _AddCustomerState extends State<AddEditCustomer> {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
 
         customerModel = arguments["model"];
+        print(customerModel);
 
         setState(() {
           isEditMode = true;

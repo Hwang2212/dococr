@@ -140,7 +140,6 @@ class APIService {
     request.fields["ancestral_ill"] = model.ancestral_ill!;
     request.fields["ancestral_desc"] = model.ancestral_desc!;
 
-
     var response = await request.send();
     if (response.statusCode == 200) {
       return true;
@@ -158,9 +157,18 @@ class APIService {
   ) async {
     var underwriteURL = Config.underwriteURL;
 
+    if (isEditMode) {
+      underwriteURL = underwriteURL +
+          "/" +
+          customermodel.id!.toString() +
+          "/" +
+          healthmodel.id!.toString() +
+          "/" +
+          underwriteModel.id!.toString();
+    }
     var url = Uri.http(Config.apiURL, underwriteURL);
 
-    var requestMethod = isEditMode ? "PATCH" : "POST";
+    var requestMethod = isEditMode ? "PUT" : "POST";
 
     // This is content-type is "multipart/form data"
     var request = http.MultipartRequest(requestMethod, url);
@@ -222,18 +230,14 @@ class APIService {
     }
   }
 
-
-  static Future<bool> uploadUWForm(
+  static Future<List?> uploadUWForm(
     UnderwriteFormModel model,
-
   ) async {
-    var uploadUWURL = Config.underwriteURL+Config.uploadURL;
-
-
+    var uploadUWURL = Config.underwriteURL + Config.uploadURL;
 
     var url = Uri.http(Config.apiURL, uploadUWURL);
 
-    var requestMethod =  "POST";
+    var requestMethod = "POST";
 
     // This is content-type is "multipart/form data"
     var request = http.MultipartRequest(requestMethod, url);
@@ -246,11 +250,56 @@ class APIService {
           contentType: MediaType('multipart', 'form-data')));
     }
 
-    var response = await request.send();
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
     if (response.statusCode == 200) {
-      return true;
+      var data = await jsonDecode(response.body);
+      var customerData = CustomerModel.fromJson(data["customer"]);
+      var underwriteData = UnderwriteModel.fromJson(data["underwrite"]);
+      var healthData = HealthModel.fromJson(data["health"]);
+      List dataList = [customerData, underwriteData, healthData];
+      return dataList;
     } else {
-      return false;
+      return null;
+    }
+  }
+
+  static Future<List<UnderwriteFormModel>?> getPDFByCustomerID(
+      String? cust_id) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+
+    var pdfURL = Config.pdfURL;
+    pdfURL = pdfURL + "/customer/" + cust_id!;
+    var url = Uri.http(Config.apiURL, pdfURL);
+
+    var response = await client.get(url, headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      return underwriteFormFromJson(data);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<UnderwriteModel>?> getUnderwriteByCustomerID(
+      String? id) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+
+    var underwriteURL = Config.underwriteURL;
+    underwriteURL = underwriteURL + "/customer/" + id!;
+    var url = Uri.http(Config.apiURL, underwriteURL);
+
+    var response = await client.get(url, headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      return underwriteFromJson(data);
+    } else {
+      return null;
     }
   }
 }

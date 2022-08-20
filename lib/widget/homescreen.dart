@@ -1,5 +1,5 @@
-import 'package:dococr/pages/add_underwritingform.dart';
-import 'package:dococr/pages/customer_list.dart';
+import 'package:dococr/pages/AddEditItems/add_underwritingform.dart';
+import 'package:dococr/pages/Lists/customer_list.dart';
 import 'package:dococr/pages/upload_uwform.dart';
 import 'package:dococr/widget/customer_list_widget.dart';
 import 'package:flutter/material.dart';

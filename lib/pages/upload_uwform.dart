@@ -169,7 +169,7 @@ class _UploadUnderwritingFormState extends State<UploadUnderwritingForm> {
       pdf.addPage(pw.Page(
           pageFormat: PdfPageFormat.a4,
           build: (pw.Context contex) {
-            return pw.Center(child: pw.Image(image));
+            return pw.FullPage(ignoreMargins: true, child: pw.Image(image));
           }));
     }
   }
@@ -184,12 +184,12 @@ class _UploadUnderwritingFormState extends State<UploadUnderwritingForm> {
       underwriteformModel!.uw_filepath = file.path;
     });
     APIService.uploadUWForm(underwriteformModel!).then((response) {
-      if (response) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/home',
-          (route) => false,
-        );
+      if (response != null) {
+        Navigator.of(context).pushNamed('/add-edit-underwrite', arguments: {
+          'customermodel': response[0],
+          'underwritemodel': response[1],
+          'healthmodel': response[2],
+        });
       } else {
         FormHelper.showSimpleAlertDialog(
             context, Config.appName, "Error Occured", "OK", () {

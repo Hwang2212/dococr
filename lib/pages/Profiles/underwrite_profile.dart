@@ -1,20 +1,17 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'package:dococr/pages/add_customer.dart';
-import 'package:dococr/pages/health_list.dart';
-import 'package:dococr/pages/customer_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key, required this.customers});
+class UnderwriteProfile extends StatefulWidget {
+  const UnderwriteProfile({super.key, required this.underwrite});
 
-  final customers;
+  final underwrite;
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<UnderwriteProfile> createState() => _UnderwriteProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _UnderwriteProfileState extends State<UnderwriteProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,90 +23,42 @@ class _ProfileState extends State<Profile> {
             children: <Widget>[
               OutlinedButton(
                 onPressed: Navigator.of(context).pop,
-                child: Text(
-                  "Back",
-                  style: TextStyle(color: Colors.black),
-                ),
+                child: Text("Back", style: TextStyle(color: Colors.black),),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(),
                 child: Text(
-                  widget.customers.customer_name + ' PROFILE',
+                  'CUSTOMER HEALTH PROFILE',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.blueGrey,
-                      fontSize: 25.0,
+                      fontSize: 28.0,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.0),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "https://avatars.dicebear.com/api/miniavs/:" +
-                              widget.customers.id.toString() +
-                              '.jpg'),
-                      radius: 70.0),
-                  SizedBox(width: 50),
-                  CircleAvatar(
-                    // ignore: sort_child_properties_last
-                    child: Text(
-                      widget.customers.gender,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    backgroundColor: Colors.amber,
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(),
+                child: Text(
+                  'Added on ' + widget.underwrite.created_at,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontSize: 20.0,
+                      fontStyle: FontStyle.italic,
+                      letterSpacing: 1.0),
+                ),
               ),
-              Center(
-                child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed('/add-edit-customer', arguments: {
-                        'model': widget.customers,
-                      });
-                    },
-                    child: Text(
-                      'Edit Customer Details',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                        fixedSize: Size.fromWidth(400.0),
-                        shape: StadiumBorder(),
-                        side: BorderSide(width: 2.0))),
-              ),
-              Center(
-                child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  HealthList(health: widget.customers)));
-                    },
-                    child: Text(
-                      'View Health Details',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                        fixedSize: Size.fromWidth(400.0),
-                        shape: StadiumBorder(),
-                        side: BorderSide(width: 2.0))),
-              ),
-              Text('NAME',
+              SizedBox(height: 10),
+              Text('Underwriting Form ID',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               SizedBox(width: 200),
               Text(
-                widget.customers.customer_name,
+                widget.underwrite.uw_id.toString(),
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -118,25 +67,45 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('Age',
+              Text('Customer ID',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
-              Text(widget.customers.age.toString() + ' Y/O',
+              SizedBox(width: 200),
+              Text(
+                widget.underwrite.cust_id,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text('HEIGHT AND WEIGHT (cm/kg)',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                  widget.underwrite.height.toString() +
+                      ' CM         ' +
+                      widget.underwrite.weight.toString() +
+                      ' KG',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   )),
               SizedBox(height: 10),
-              Text('IC',
+              Text('RECENT ILLNESS (Write Description if YES)',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.ic.toString(),
+                widget.underwrite.current_ill,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -145,13 +114,28 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('Date Created',
+              Text('PAST 5 YEARS ILLNESS (Write Description if YES)',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.created_at,
+                widget.underwrite.five_years_ill,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text('RECENT HAZARDOUS ACTIVITY (Eg. Yes, Flying)',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.underwrite.hazardact,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -162,13 +146,13 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Phone Number',
+              Text('Insurance Application Rejected Before',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.phone_number,
+                widget.underwrite.rejectinsurance,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -179,13 +163,13 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Email',
+              Text('SMOKER',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.email,
+                widget.underwrite.smoker,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -196,13 +180,13 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Race',
+              Text('ALCOHOLIC',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.race,
+                widget.underwrite.alcoholic,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -213,13 +197,13 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Nationality',
+              Text('Infected with HIV',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.nationality,
+                widget.underwrite.hiv,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -230,13 +214,13 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Corresponding Address',
+              Text('ANCESTRAL ILLNESS',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.corr_address,
+                widget.underwrite.ancestral_ill,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -247,67 +231,13 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('House Phone Number',
+              Text('ANCESTRAL ILLNESS DESCRIPTION',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.customers.home_phone,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  letterSpacing: 1.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text('Office Phone Number',
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontWeight: FontWeight.bold,
-                  )),
-              Text(
-                widget.customers.office_phone,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  letterSpacing: 1.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text('Monthly Income',
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontWeight: FontWeight.bold,
-                  )),
-              Text(
-                "RM  " + widget.customers.monthly_income.toString(),
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20.0,
-                  letterSpacing: 1.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text('Job',
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontWeight: FontWeight.bold,
-                  )),
-              Text(
-                widget.customers.duties +
-                    ' at -' +
-                    widget.customers.business_nature +
-                    ' industry',
+                widget.underwrite.ancestral_desc,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,

@@ -2,10 +2,8 @@
 
 import 'package:dococr/api_service.dart';
 import 'package:dococr/model/health.model.dart';
-import 'package:dococr/pages/add_customer.dart';
-import 'package:dococr/pages/add_edit_health.dart';
-import 'package:dococr/pages/customer_list.dart';
-import 'package:dococr/pages/health_profile.dart';
+import 'package:dococr/pages/AddEditItems/add_edit_health.dart';
+import 'package:dococr/pages/Profiles/health_profile.dart';
 import 'package:flutter/material.dart';
 
 class HealthList extends StatefulWidget {
@@ -20,7 +18,6 @@ class HealthList extends StatefulWidget {
 class _HealthListState extends State<HealthList> {
   @override
   Widget build(BuildContext context) {
-    print(widget.health.id);
     // Need to get latest health and pass into this page
     return Scaffold(
         appBar: AppBar(

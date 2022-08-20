@@ -1,4 +1,4 @@
-import 'package:dococr/pages/customer_list.dart';
+import 'package:dococr/pages/Lists/customer_list.dart';
 import 'package:dococr/widget/homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';

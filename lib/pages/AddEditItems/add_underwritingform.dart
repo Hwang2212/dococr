@@ -14,7 +14,7 @@ import 'package:file_picker/file_picker.dart';
 
 class AddEditUnderwriteForm extends StatefulWidget {
   const AddEditUnderwriteForm({Key? key}) : super(key: key);
-  static const routeName = "/add-edit-health";
+  static const routeName = "/add-edit-underwrite";
 
   @override
   State<AddEditUnderwriteForm> createState() => _AddUnderwriteState();
@@ -73,7 +73,9 @@ class _AddUnderwriteState extends State<AddEditUnderwriteForm> {
       if (ModalRoute.of(context)?.settings.arguments != null) {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
 
-        customerModel = arguments["model"];
+        customerModel = arguments["customermodel"];
+        underwriteModel = arguments["underwritemodel"];
+        healthModel = arguments["healthmodel"];
 
         setState(() {
           isEditMode = true;
@@ -1496,7 +1498,7 @@ class _AddUnderwriteState extends State<AddEditUnderwriteForm> {
                   });
 
                   APIService.saveUWForm(customerModel!, healthModel!,
-                          underwriteModel!, isImageSelected)
+                          underwriteModel!, isEditMode)
                       .then((response) {
                     setState(() {
                       isAPICallProcess = false;

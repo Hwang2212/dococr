@@ -6,4 +6,5 @@ class Config {
   static const String healthURL = "/health";
   static const String underwriteURL = "/underwrite";
   static const String uploadURL = "/upload";
+  static const String pdfURL = "/pdf";
 }
