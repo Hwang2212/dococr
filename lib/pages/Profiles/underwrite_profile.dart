@@ -23,12 +23,15 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
             children: <Widget>[
               OutlinedButton(
                 onPressed: Navigator.of(context).pop,
-                child: Text("Back", style: TextStyle(color: Colors.black),),
+                child: Text(
+                  "Back",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(),
                 child: Text(
-                  'CUSTOMER HEALTH PROFILE',
+                  'UNDERWRITING FORM DETAILS ID: ' + widget.underwrite.id.toString(),
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.blueGrey,
@@ -51,14 +54,14 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('Underwriting Form ID',
+              Text('Policy Number',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               SizedBox(width: 200),
               Text(
-                widget.underwrite.uw_id.toString(),
+                widget.underwrite.policy_no,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -67,14 +70,14 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('Customer ID',
+              Text('Product Name',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               SizedBox(width: 200),
               Text(
-                widget.underwrite.cust_id,
+                widget.underwrite.product_name,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -83,29 +86,25 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('HEIGHT AND WEIGHT (cm/kg)',
+              Text('Product Code',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
-              Text(
-                  widget.underwrite.height.toString() +
-                      ' CM         ' +
-                      widget.underwrite.weight.toString() +
-                      ' KG',
+              Text(widget.underwrite.product_code.toString(),
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   )),
               SizedBox(height: 10),
-              Text('RECENT ILLNESS (Write Description if YES)',
+              Text('Staff Application',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.current_ill,
+                widget.underwrite.staff_application,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -114,13 +113,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('PAST 5 YEARS ILLNESS (Write Description if YES)',
+              Text('Remarks',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.five_years_ill,
+                widget.underwrite.remarks,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -129,13 +128,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
                 ),
               ),
               SizedBox(height: 10),
-              Text('RECENT HAZARDOUS ACTIVITY (Eg. Yes, Flying)',
+              Text('Bank In Slip Number',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.hazardact,
+                widget.underwrite.bank_in_slipno,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -146,13 +145,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Insurance Application Rejected Before',
+              Text('Insurance Plan Name',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.rejectinsurance,
+                widget.underwrite.plan_name,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -163,13 +162,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('SMOKER',
+              Text('Insurance Plan Term',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.smoker,
+                widget.underwrite.plan_term,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -180,13 +179,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('ALCOHOLIC',
+              Text('Insurance Plan Sum Assured',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.alcoholic,
+                widget.underwrite.plan_sum_assured,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -197,13 +196,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Infected with HIV',
+              Text('Insurance Plan Installment Premium',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.hiv,
+                widget.underwrite.plan_installment_premium,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -214,13 +213,13 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('ANCESTRAL ILLNESS',
+              Text('Premium Payment Frequency',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.ancestral_ill,
+                widget.underwrite.premium_payment_freq,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -231,13 +230,98 @@ class _UnderwriteProfileState extends State<UnderwriteProfile> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('ANCESTRAL ILLNESS DESCRIPTION',
+              Text('Initial Premium Payment Method',
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                widget.underwrite.ancestral_desc,
+                widget.underwrite.initial_payment_method,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Premium Recurring Payment Method',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.underwrite.recurring_payment_method,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Bank Card Type',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.underwrite.bank_card_type,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Bank Card Number',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.underwrite.bank_card_no,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Bank Card Expiry Date',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.underwrite.bank_card_expiry,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('Bank Card Issuer',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text(
+                widget.underwrite.bank_card_issuer,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,

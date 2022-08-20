@@ -31,24 +31,6 @@ class _UnderwriteListState extends State<UnderwriteList> {
         ),
         body: Column(
           children: [
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.black,
-                    primary: Color.fromARGB(255, 176, 250, 255),
-                    minimumSize: const Size(88.0, 36.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)))),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          AddEditHealth(customer: widget.underwrite),
-                    ),
-                  );
-                },
-                child: const Text("Add Health")),
             loadunderwrite(),
           ],
         ));
@@ -71,8 +53,6 @@ class _UnderwriteListState extends State<UnderwriteList> {
     );
   }
 }
-
-enum _UnderwriteValues { add_edit_underwrite }
 
 Widget underwriteList(underwrite) {
   return SingleChildScrollView(
@@ -111,25 +91,6 @@ Widget underwriteList(underwrite) {
                   letterSpacing: 1.0,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              trailing: PopupMenuButton<_UnderwriteValues>(
-                itemBuilder: ((context) => [
-                      PopupMenuItem(
-                        child: Text('Edit Underwrite Details'),
-                        value: _UnderwriteValues.add_edit_underwrite,
-                      ),
-                    ]),
-                onSelected: (value) {
-                  switch (value) {
-                    case _UnderwriteValues.add_edit_underwrite:
-                      Navigator.of(context).pushNamed('/add-edit-health',
-                          arguments: {
-                            'model': underwrite[index],
-                            'cust_id': underwrite[index].id
-                          });
-                      break;
-                  }
-                },
               ),
             ),
           );

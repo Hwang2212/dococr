@@ -1,6 +1,6 @@
 import 'package:dococr/api_service.dart';
 import 'package:dococr/model/customer_model.dart';
-import 'package:dococr/pages/addedit/add_customer.dart';
+import 'package:dococr/pages/AddEditItems/add_customer.dart';
 import 'package:flutter/material.dart';
 import 'package:dococr/pages/Profiles/profile.dart';
 // import 'package:dococr/services/data.dart';

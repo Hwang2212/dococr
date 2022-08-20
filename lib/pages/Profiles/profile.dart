@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:dococr/pages/addedit/add_customer.dart';
+import 'package:dococr/pages/AddEditItems/add_customer.dart';
 import 'package:dococr/pages/Lists/health_list.dart';
 import 'package:dococr/pages/Lists/customer_list.dart';
 import 'package:dococr/pages/Lists/underwrite_list.dart';
